@@ -3,9 +3,9 @@
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
         v-bind="activatorProps"
-        icon
-        size="small"
         :color="color"
+        size="small"
+        icon
         class="ml-1"
         @click.prevent="docDwd"
       >
@@ -20,6 +20,7 @@
 import { ref, onMounted } from "vue";
 import { getBlob, getDateTime } from "@/general";
 
+//Props
 const props = defineProps({
   lab: {
     type: String,
@@ -39,8 +40,11 @@ const props = defineProps({
   },
 });
 
+//Refs
 const doc_obj = ref(null);
 
+
+//Métodos
 const docDwd = () => {
   if (!doc_obj.value) return;
 

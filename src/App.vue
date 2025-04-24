@@ -8,6 +8,7 @@ import BtnLogout from "@/components/BtnLogout.vue";
 import Alert from "@/components/Alert.vue";
 import Confirm from "@/components/Confirm.vue";
 
+//Refs
 const authStore = useAuthStore();
 const router = useRouter();
 const alert = ref(null);
@@ -17,6 +18,7 @@ const app_name = APP_NAME;
 const auth = computed(() => authStore.getAuth);
 const app = getCurrentInstance()?.appContext.app;
 
+//Proveer los componentes Alert y Confirm de forma global
 provide("alert", {
   show: (color, msg) => alert.value?.show(color, msg),
 });
@@ -32,7 +34,6 @@ provide("confirm", {
     <Confirm ref="confirm" />
     <v-app-bar v-if="auth" :elevation="2">
       <v-app-bar-title>MEDICPAY</v-app-bar-title>
-
       <template v-slot:append>
         <BtnTheme />
         <BtnLogout />

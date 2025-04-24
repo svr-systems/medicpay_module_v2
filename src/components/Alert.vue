@@ -16,15 +16,18 @@
 <script setup>
 import { ref, provide } from "vue";
 
+//Refs
 const color = ref(null);
 const msg = ref(null);
 const visible = ref(false);
 
+//Métodos
 const show = (Newcolor, NewMsg) => {
   color.value = Newcolor;
   msg.value = NewMsg;
   visible.value = true;
 };
 
+//Exponer la función show de forma global para usarse en otros componentes
 defineExpose({ show });
 </script>

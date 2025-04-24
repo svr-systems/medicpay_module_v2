@@ -1,12 +1,12 @@
 <template>
   <v-text-field
-    :label="label"
     v-model="val"
+    prepend-icon="mdi-lock"
     variant="outlined"
+    maxlength="50"
+    :label="label"
     :type="password_show ? 'text' : 'password'"
     :rules="rules"
-    maxlength="50"
-    prepend-icon="mdi-lock"
     :disabled="isDisabled"
     :counter="isCounter"
   >
@@ -15,11 +15,11 @@
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
-            text
             size="x-small"
+            text
+            variant="plain"
             :icon="password_show ? 'mdi-eye' : 'mdi-eye-off'"
             :disabled="isDisabled"
-            variant="plain"
             @click.prevent="password_show = !password_show"
           />
         </template>
@@ -32,6 +32,7 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 
+//Props
 const props = defineProps({
   label: String,
   model: String,
@@ -40,10 +41,13 @@ const props = defineProps({
   counter: Boolean,
 });
 
+//Refs
 const password_show = ref(false);
 
+//Emits
 const emit = defineEmits(["update:model"]);
 
+//Métodos
 const val = computed({
   get() {
     return props.model;

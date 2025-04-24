@@ -7,8 +7,8 @@
           <v-icon v-if="icon_prop" size="small">mdi-{{ icon }}</v-icon>
           <v-btn
             v-if="link_prop"
-            icon
             size="x-small"
+            icon
             :href="link"
             target="_blank"
           >
@@ -16,12 +16,12 @@
           </v-btn>
           {{ displayValue }}
         </span>
-        <v-chip v-else size="x-small" :color="color">
+        <v-chip v-else :color="color" size="x-small" >
           <v-icon v-if="icon_prop" size="small">mdi-{{ icon }}</v-icon>
           <v-btn
             v-if="link_prop"
-            icon
             size="x-small"
+            icon
             :href="link"
             target="_blank"
           >
@@ -31,7 +31,7 @@
         </v-chip>
       </div>
       <div v-else>
-        <v-icon size="small" :color="value ? 'info' : ''">
+        <v-icon :color="value ? 'info' : ''" size="small" >
           mdi-checkbox-blank-circle{{ value ? "" : "-outline" }}
         </v-icon>
       </div>
@@ -45,6 +45,7 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 
+//Props
 const props = defineProps({
   val: [String, Number, Boolean, Object],
   lab: {
@@ -81,6 +82,7 @@ const props = defineProps({
   },
 });
 
+//Refs
 const value = ref(null);
 const lab_prop = ref(false);
 const sub_prop = ref(false);
@@ -90,6 +92,7 @@ const icon_prop = ref(false);
 const link_prop = ref(false);
 const noval_prop = ref(false);
 
+//Métodos
 const displayValue = computed(() => {
   if (bool_prop.value) return value.value;
   return typeof props.num === "undefined" &&

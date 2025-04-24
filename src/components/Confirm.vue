@@ -4,9 +4,11 @@
       <v-card-text>
         <v-row dense class="text-center">
           <v-col cols="12">
-            <v-icon color="warning" size="64">
-              mdi-alert-octagon-outline
-            </v-icon>
+            <v-icon
+              color="warning"
+              size="64"
+              icon="mdi-alert-octagon-outline"
+            />
           </v-col>
 
           <v-col cols="12">
@@ -18,23 +20,23 @@
           <v-col cols="12" class="d-flex justify-center align-center py-4">
             <v-btn
               color="error"
-              icon="mdi-close"
-              variant="flat"
               size="small"
+              icon="mdi-close"
               class="mx-2"
-              @click="cancel"
+              variant="flat"
               rounded="pill"
-            ></v-btn>
+              @click="cancel"
+            />
 
             <v-btn
               color="success"
-              icon="mdi-check"
-              variant="flat"
               size="small"
+              icon="mdi-check"
               class="mx-2"
-              @click="accept"
+              variant="flat"
               rounded="pill"
-            ></v-btn>
+              @click="accept"
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -45,10 +47,12 @@
 <script setup>
 import { ref } from "vue";
 
+//Refs
 const msg = ref("");
 const visible = ref(false);
 const resolve = ref(null);
 
+//Métodos
 const show = (message) => {
   msg.value = message;
   visible.value = true;
@@ -68,5 +72,6 @@ const cancel = () => {
   visible.value = false;
 };
 
+//Exponer la función show de forma global para usarse en otros componentes
 defineExpose({ show });
 </script>

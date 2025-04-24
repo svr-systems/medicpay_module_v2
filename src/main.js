@@ -19,7 +19,7 @@ const vuetify = createVuetify({
   },
 });
 
-const socket = io('http://', {
+const socket = io('https://solmetec.mx:3000', {
   autoConnect: false,
   reconnectionAttempts: 5,
   reconnectionDelay: 1000,

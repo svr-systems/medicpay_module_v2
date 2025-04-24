@@ -11,9 +11,9 @@
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn
                   v-bind="activatorProps"
-                  icon
-                  size="small"
                   color="primary"
+                  size="small"
+                  icon
                   @click="show = false"
                 >
                   <v-icon icon="mdi-close" size="small" />
@@ -55,6 +55,7 @@ import { computed } from "vue";
 import CardTitle from "@/components/CardTitle.vue";
 import VisVal from "@/components/VisVal.vue";
 
+//Props
 const props = defineProps({
   value: {
     type: Boolean,
@@ -67,8 +68,10 @@ const props = defineProps({
   },
 });
 
+//Emits
 const emit = defineEmits(["input"]);
 
+//Métodos
 const show = computed({
   get: () => props.value,
   set: (value) => emit("input", value),

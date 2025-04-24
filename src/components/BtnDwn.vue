@@ -4,12 +4,12 @@
       <template v-slot:activator="{ props: activatorProps }">
         <v-btn
           v-bind="activatorProps"
-          icon
           size="small"
-          @click.prevent="docDwd"
+          icon
           class="pointer"
+          @click.prevent="docDwd"
         >
-          <v-icon icon="mdi-download" size="small" />
+          <v-icon size="small" icon="mdi-download"/>
         </v-btn>
       </template>
       <span>Descargar</span>
@@ -21,6 +21,7 @@
 import { ref, onMounted } from "vue";
 import { getBlob, getDateTime } from "@/general";
 
+//Props
 const props = defineProps({
   val: {
     type: [Object],
@@ -28,8 +29,10 @@ const props = defineProps({
   },
 });
 
+//Refs
 const docObj = ref(null);
 
+//Métodos
 const docDwd = () => {
   if (!docObj.value) return;
 

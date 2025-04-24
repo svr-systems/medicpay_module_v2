@@ -3,14 +3,15 @@
     <v-icon
       v-if="icon"
       :size="sub ? 'x-small' : 'small'"
-      class="ml-1"
       :icon="icon"
+      class="ml-1"
     />
     {{ text }}
   </span>
 </template>
 
 <script setup>
+//Props
 defineProps({
   text: {
     type: String,

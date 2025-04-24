@@ -73,39 +73,39 @@
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-text-field
-                      label="E-mail del paciente"
                       v-model="item.patient.email"
                       density="compact"
+                      label="E-mail del paciente"
                       variant="outlined"
-                      type="text"
-                      :rules="rules.email"
                       maxlength="65"
+                      type="text"
                       counter
+                      :rules="rules.email"
                     />
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-select
-                      label="Forma de pago"
                       v-model="item.fiscal_payment_id"
                       density="compact"
+                      label="Forma de pago"
                       variant="outlined"
+                      item-value="id"
                       :rules="rules.required"
                       :items="fiscal_payments"
                       :item-title="(v) => v.name + ' | ' + v.code"
-                      item-value="id"
                       :loading="fiscal_payments_ldg"
                     />
                   </v-col>
                   <v-col cols="12" md="4" v-if="item.fiscal_payment_id == 3">
                     <v-text-field
-                      label="Referencia"
                       v-model="item.charge_reference"
                       density="compact"
+                      label="Referencia"
                       variant="outlined"
-                      :rules="rules.txt_rqd"
                       type="text"
                       maxlength="20"
                       counter
+                      :rules="rules.txt_rqd"
                     />
                   </v-col>
                   <v-col
@@ -117,14 +117,14 @@
                     "
                   >
                     <v-text-field
-                      label="Núm. aprobación"
                       v-model="item.charge_aprobattion"
                       density="compact"
+                      label="Núm. aprobación"
                       variant="outlined"
-                      :rules="rules.txt_rqd"
                       type="text"
                       maxlength="10"
                       counter
+                      :rules="rules.txt_rqd"
                     />
                   </v-col>
                   <v-col
@@ -136,14 +136,14 @@
                     "
                   >
                     <v-text-field
-                      label="Tarjeta (4 últ. dig.)"
                       v-model="item.charge_card"
                       density="compact"
+                      label="Tarjeta (4 últ. dig.)"
                       variant="outlined"
-                      :rules="rules.txt_rqd"
                       type="text"
                       maxlength="4"
                       counter
+                      :rules="rules.txt_rqd"
                     />
                   </v-col>
                   <v-col cols="12">
@@ -151,92 +151,92 @@
                   </v-col>
                   <v-col cols="12">
                     <v-select
-                      label="¿Requiere factura fiscal?"
                       v-model="item.bill_patient"
                       density="compact"
+                      label="¿Requiere factura fiscal?"
                       variant="outlined"
+                      item-value="id"
                       :rules="[(v) => v != null || 'Campo requerido']"
                       :items="bill_patient_opts"
                       :item-title="(v) => v.name"
-                      item-value="id"
                     />
                   </v-col>
                   <v-col cols="12" v-if="item.bill_patient">
                     <v-row density="compact">
                       <v-col cols="12" md="3">
                         <v-text-field
-                          label="RFC"
                           v-model="item.fiscal_code"
                           density="compact"
+                          label="RFC"
                           variant="outlined"
-                          :rules="rules.fiscal_code_rqd"
                           type="text"
                           maxlength="13"
                           counter
+                          :rules="rules.fiscal_code_rqd"
                         />
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-text-field
-                          label="Nombre | Razón social"
                           v-model="item.fiscal_name"
                           density="compact"
+                          label="Nombre | Razón social"
                           variant="outlined"
-                          :rules="rules.txt_rqd"
                           type="text"
                           maxlength="75"
                           counter
+                          :rules="rules.txt_rqd"
                         />
                       </v-col>
                       <v-col cols="12" md="3">
                         <v-text-field
-                          label="CP"
                           v-model="item.fiscal_zip"
                           density="compact"
+                          label="CP"
                           variant="outlined"
-                          :rules="rules.zip_rqd"
                           type="text"
                           maxlength="5"
                           counter
+                          :rules="rules.zip_rqd"
                         />
                       </v-col>
                       <v-col cols="12" md="3">
                         <v-select
-                          label="Tipo Fiscal"
                           v-model="item.fiscal_type_id"
                           density="compact"
+                          label="Tipo Fiscal"
                           variant="outlined"
+                          item-value="id"
                           :rules="rules.rqd"
                           :items="fiscal_types"
                           :item-title="(v) => v.name"
-                          item-value="id"
                           :loading="fiscal_types_ldg"
                           @update:modelValue="getFiscalRegimes()"
                         />
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-autocomplete
-                          label="Régimen Fiscal"
                           v-model="item.fiscal_regime_id"
                           density="compact"
+                          label="Régimen Fiscal"
                           variant="outlined"
+                          item-value="id"
                           :rules="rules.rqd"
                           :items="fiscal_regimes"
                           :item-title="(v) => v.name + ' | ' + v.code"
-                          item-value="id"
                           :loading="fiscal_regimes_ldg"
                           @update:modelValue="getFiscalUses()"
                         />
                       </v-col>
                       <v-col cols="12" md="3">
                         <v-autocomplete
-                          label="Uso CFDI"
                           v-model="item.fiscal_use_id"
                           density="compact"
+                          label="Uso CFDI"
                           variant="outlined"
+                          item-value="id"
                           :rules="rules.rqd"
                           :items="fiscal_uses"
                           :item-title="(v) => v.name + ' | ' + v.code"
-                          item-value="id"
                           :loading="fiscal_uses_ldg"
                         />
                       </v-col>
@@ -248,13 +248,13 @@
                   <v-col cols="12">
                     <v-file-input
                       v-model="item.charge_proof_doc"
-                      label="Comprobante"
                       density="compact"
+                      label="Comprobante"
                       variant="outlined"
-                      :rules="rules.docLmt"
                       show-size
                       prepend-icon=""
                       accept=".jpg"
+                      :rules="rules.docLmt"
                     />
                   </v-col>
                 </v-row>
@@ -264,9 +264,9 @@
           <v-col cols="12">
             <div class="text-right">
               <v-btn
-                block
-                size="small"
                 color="success"
+                size="small"
+                block
                 :loading="ldg"
                 @click.prevent="update"
               >
@@ -300,6 +300,7 @@ import BtnBack from "@/components/BtnBack.vue";
 import CardTitle from "@/components/CardTitle.vue";
 import VisVal from "@/components/VisVal.vue";
 
+//Imports
 const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
@@ -312,8 +313,6 @@ const ldg = ref(true);
 const item = ref(null);
 const routeName = "module/consultations";
 const id = ref(window.atob(route.params.id));
-
-// Catálogos
 const fiscal_payments = ref([]);
 const fiscal_payments_ldg = ref(false);
 const bill_patient_opts = ref([
@@ -330,6 +329,7 @@ const fiscal_uses_ldg = ref(false);
 
 const rules = getRules();
 
+//Métodos
 const getCatalogs = async () => {
   try {
     const [paymentsResponse, typesResponse] = await Promise.all([

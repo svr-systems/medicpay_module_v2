@@ -1,31 +1,31 @@
 <template>
   <v-menu
-    ref="menu"
     v-model="menu"
+    location="bottom"
+    ref="menu"
     :close-on-content-click="false"
     transition="scale-transition"
-    location="bottom"
     min-width="auto"
   >
     <template v-slot:activator="{ props: activatorProps }">
       <v-text-field
-        v-bind="activatorProps"
         v-model="val"
+        v-bind="activatorProps"
+        density="compact"
         :label="label"
         :rules="rules"
         :disabled="$attrs.disabled"
         readonly
-        density="compact"
         :variant="outlined ? 'outlined' : 'underlined'"
       />
     </template>
     <v-date-picker
       v-model="val"
+      color="warning"
       title=""
       scrollable
       :min="date_min"
       :max="date_max"
-      color="warning"
     >
       <template v-slot:actions>
         <v-spacer />
@@ -33,12 +33,12 @@
           <template v-slot:activator="{ props: tooltipProps }">
             <v-btn
               v-bind="tooltipProps"
+              color="error"
               size="x-small"
               icon
-              color="error"
               @click="cancel"
             >
-              <v-icon icon="mdi-close" size="small" />
+              <v-icon size="small" icon="mdi-close"/>
             </v-btn>
           </template>
           <span>Cancelar</span>
@@ -48,13 +48,13 @@
           <template v-slot:activator="{ props: tooltipProps }">
             <v-btn
               v-bind="tooltipProps"
+              color="info"
               size="x-small"
               icon
-              color="info"
               class="ml-1"
               @click="erase"
             >
-              <v-icon icon="mdi-eraser" size="small" />
+              <v-icon size="small" icon="mdi-eraser"  />
             </v-btn>
           </template>
           <span>Limpiar</span>
@@ -64,13 +64,13 @@
           <template v-slot:activator="{ props: tooltipProps }">
             <v-btn
               v-bind="tooltipProps"
+              color="warning"
               size="x-small"
               icon
-              color="warning"
               class="ml-1"
               @click="select"
             >
-              <v-icon icon="mdi-check" size="small" />
+              <v-icon size="small" icon="mdi-check"  />
             </v-btn>
           </template>
           <span>Aceptar</span>
@@ -84,6 +84,7 @@
 import { ref, computed, onMounted } from "vue";
 import { getDateTime } from "@/general";
 
+//Props
 const props = defineProps({
   label: String,
   model: String,
@@ -95,8 +96,10 @@ const props = defineProps({
   after: Boolean,
 });
 
+//Emits
 const emit = defineEmits(["update:model"]);
 
+//Refs
 const menu = ref(false);
 const date_min = ref("1920-01-01");
 const date_max = ref("");
@@ -107,6 +110,7 @@ const val = computed({
   set: (value) => emit("update:model", value),
 });
 
+//Métodos
 const cancel = () => {
   menu.value = false;
 };

@@ -83,12 +83,14 @@ import BtnTheme from "@/components/BtnTheme.vue";
 import InpPassword from "@/components/InpPassword.vue";
 import logo from "@/assets/vue.svg";
 
-// Refs
+//Imports
 const authStore = useAuthStore();
 const router = useRouter();
+const alert = inject("alert");
+
+// Refs
 const itemForm = ref(null);
 const ldg = ref(false);      
-const alert = inject("alert");
 const item = ref({
   email: "",
   password: "",

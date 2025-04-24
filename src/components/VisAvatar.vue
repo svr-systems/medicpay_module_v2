@@ -12,6 +12,7 @@
 import { ref, onMounted } from "vue";
 import { getBlob } from "@/general";
 
+//Props
 const props = defineProps({
   lab: {
     type: String,
@@ -31,11 +32,13 @@ const props = defineProps({
   },
 });
 
-const doc_obj = ref(null); //No se usa
+//Refs
+const doc_obj = ref(null);
 const lab_prop = ref(false);
 const icon_val = ref("account-circle");
 const size_val = ref(21);
 
+//Métodos
 const getImg = (v) => {
   return URL.createObjectURL(getBlob(v.cnt, v.ext));
 };

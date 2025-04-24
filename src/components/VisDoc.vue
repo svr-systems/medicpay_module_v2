@@ -7,8 +7,8 @@
           <template v-slot:activator="{ props: activatorProps }">
             <v-avatar
               v-bind="activatorProps"
-              class="pointer"
               size="21"
+              class="pointer"
               @click.prevent="img_dlg = true"
             >
               <v-img :src="doc_obj" />
@@ -20,8 +20,8 @@
           <template v-slot:activator="{ props: activatorProps }">
             <v-btn
               v-bind="activatorProps"
-              icon
               size="x-small"
+              icon
               @click.prevent="docDwd"
             >
               <v-icon size="small">mdi-download</v-icon>
@@ -79,6 +79,7 @@ import { ref, onMounted } from "vue";
 import { getBlob, getDateTime } from "@/general";
 import CardTitle from "@/components/CardTitle.vue";
 
+//Props
 const props = defineProps({
   lab: String,
   val: Object,
@@ -88,10 +89,12 @@ const props = defineProps({
   },
 });
 
+//Refs
 const doc_obj = ref(null);
 const img_prop = ref(false);
 const img_dlg = ref(false);
 
+//Métodos
 const docDwd = () => {
   const link = document.createElement("a");
   link.setAttribute("target", "_blank");

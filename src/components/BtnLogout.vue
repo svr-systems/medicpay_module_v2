@@ -2,8 +2,8 @@
   <v-tooltip left>
     <template v-slot:activator="{ on }">
       <v-btn
-        size="small"
         v-on="on"
+        size="small"
         icon="mdi-logout-variant"
         @click.prevent="logoutHandle"
       >
@@ -20,11 +20,14 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import { URL_API, getHdrs, getErr } from "@/general";
 
+
+//Imports
 const authStore = useAuthStore();
 const router = useRouter();
 const confirm = inject("confirm");
 const alert = inject("alert");
 
+//Métodos
 const logout = () => {
   authStore.logoutAction();
   router.push({ name: "login" });

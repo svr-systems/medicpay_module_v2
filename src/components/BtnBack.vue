@@ -10,6 +10,7 @@
 </template>
 
 <script setup>
+//Props
 defineProps({
   route: {
     type: [String, Object],
