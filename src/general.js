@@ -1,4 +1,4 @@
-export const APP_VERSION = "1.25.0305";
+export const APP_VERSION = "1.25.0427";
 export const APP_NAME = "MEDICPAY";
 
 const URL = "https://solmetec.mx/app";

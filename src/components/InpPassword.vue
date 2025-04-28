@@ -1,30 +1,22 @@
 <template>
   <v-text-field
-    v-model="val"
-    prepend-icon="mdi-lock"
-    variant="outlined"
-    maxlength="50"
     :label="label"
-    :type="password_show ? 'text' : 'password'"
+    v-model="val"
+    variant="outlined"
+    :type="showVal ? 'text' : 'password'"
+    maxlength="50"
     :rules="rules"
-    :disabled="isDisabled"
-    :counter="isCounter"
+    :counter="counter"
+    :disabled="disabled"
   >
     <template v-slot:append-inner>
-      <v-tooltip location="bottom">
-        <template v-slot:activator="{ on }">
-          <v-btn
-            v-on="on"
-            size="x-small"
-            text
-            variant="plain"
-            :icon="password_show ? 'mdi-eye' : 'mdi-eye-off'"
-            :disabled="isDisabled"
-            @click.prevent="password_show = !password_show"
-          />
-        </template>
-        {{ password_show ? "Ocultar" : "Mostrar" }}
-      </v-tooltip>
+      <v-btn
+        size="x-small"
+        variant="plain"
+        :icon="showVal ? 'mdi-eye' : 'mdi-eye-off'"
+        :disabled="disabled"
+        @click.prevent="showVal = !showVal"
+      />
     </template>
   </v-text-field>
 </template>
@@ -32,22 +24,20 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 
-//Props
 const props = defineProps({
   label: String,
   model: String,
   rules: Array,
-  disabled: Boolean,
   counter: Boolean,
+  disabled: Boolean,
 });
 
-//Refs
-const password_show = ref(false);
+const showVal = ref(false);
+const counter = ref(props.counter !== "undefined" ? props.counter : false);
+const disabled = ref(props.disabled !== "undefined" ? props.disabled : false);
 
-//Emits
 const emit = defineEmits(["update:model"]);
 
-//Métodos
 const val = computed({
   get() {
     return props.model;
@@ -55,10 +45,5 @@ const val = computed({
   set(value) {
     emit("update:model", value);
   },
-});
-
-onMounted(() => {
-  const isDisabled = computed(() => props.disabled ?? false);
-  const isCounter = computed(() => props.counter ?? false);
 });
 </script>

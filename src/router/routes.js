@@ -1,8 +1,18 @@
 import Auth from "./middleware/Auth";
-import Login from "./middleware/Login";
+import Public from "./middleware/Public";
 import UsrModule from "./middleware/UsrModule";
 
 const routes = [
+  //public
+  {
+    path: "/iniciar_sesion",
+    name: "login",
+    component: () => import("@/views/public/UserLogin.vue"),
+    meta: {
+      title: "Iniciar Sesión",
+      middleware: Public,
+    },
+  },
   //module
   {
     path: "/modulo/consultas",
@@ -31,25 +41,7 @@ const routes = [
     name: "main",
     component: () => import("@/views/general/Main.vue"),
     meta: {
-      title: "SVR",
-    },
-  },
-  {
-    path: "/iniciar_sesion",
-    name: "login",
-    component: () => import("@/views/general/Login.vue"),
-    meta: {
-      title: "Iniciar Sesión",
-      middleware: Login,
-    },
-  },
-  {
-    path: "/inicio",
-    name: "home",
-    component: () => import("@/views/general/Home.vue"),
-    meta: {
-      title: "Inicio",
-      middleware: Auth,
+      title: "SOLMETEC",
     },
   },
   {

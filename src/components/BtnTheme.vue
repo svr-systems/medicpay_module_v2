@@ -1,11 +1,10 @@
 <template>
-  <v-tooltip left>
-    <template v-slot:activator="{ on }">
-      <v-btn size="small" icon="mdi-brightness-6" variant="text" v-on="on" @click="toggleTheme">
-      </v-btn>
-    </template>
-    <span>Utilizar modo: {{ isDark ? "Obscuro" : "Claro" }}</span>
-  </v-tooltip>
+  <v-btn size="x-small" variant="flat" icon="mdi-brightness-6" @click="handleAction">
+    <v-icon />
+    <v-tooltip activator="parent" location="start">
+      Utilizar modo: {{ isDark ? "Obscuro" : "Claro" }}
+    </v-tooltip>
+  </v-btn>
 </template>
 
 <script setup>
@@ -13,15 +12,12 @@ import { computed, watch } from "vue";
 import { useTheme } from "vuetify";
 import { useAuthStore } from "@/store/index.js";
 
-//Imports
-const authStore = useAuthStore();
 const theme = useTheme();
+const authStore = useAuthStore();
 
-//Refs
 const isDark = computed(() => authStore.conf.theme_dark);
 
-//Métodos
-const toggleTheme = () => {
+const handleAction = () => {
   authStore.themeDarkAction();
 };
 

@@ -1,16 +1,13 @@
 <template>
-  <v-tooltip left>
-    <template v-slot:activator="{ on }">
-      <v-btn
-        v-on="on"
-        size="small"
-        icon="mdi-logout-variant"
-        @click.prevent="logoutHandle"
-      >
-      </v-btn>
-    </template>
-    Cerrar Sesión
-  </v-tooltip>
+  <v-btn
+    size="x-small"
+    variant="flat"
+    icon="mdi-logout-variant"
+    @click="handleAction"
+  >
+    <v-icon />
+    <v-tooltip activator="parent" location="start"> Cerrar Sesión </v-tooltip>
+  </v-btn>
 </template>
 
 <script setup>
@@ -20,29 +17,26 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import { URL_API, getHdrs, getErr } from "@/general";
 
-
-//Imports
 const authStore = useAuthStore();
 const router = useRouter();
 const confirm = inject("confirm");
 const alert = inject("alert");
 
-//Métodos
 const logout = () => {
   authStore.logoutAction();
   router.push({ name: "login" });
 };
 
-const logoutHandle = async () => {
+const handleAction = async () => {
   try {
     const confirmed = await confirm?.show("¿Cerrar sesión?");
     if (!confirmed) return;
 
     await axios.get(
-      `${URL_API}/auth/logout`,
+      URL_API + "/auth/logout",
       getHdrs(authStore.getAuth?.token)
     );
-    logout(); 
+    logout();
   } catch (err) {
     alert?.show("error", getErr(err));
     logout();

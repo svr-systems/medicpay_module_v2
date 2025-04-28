@@ -2,60 +2,52 @@
   <v-card elevation="24" :disabled="ldg">
     <v-card-title>
       <v-row density="compact">
-        <v-col cols="9">
-          <CardTitle :icon="$route.meta.icon" :text="$route.meta.title"/>
+        <v-col cols="12" md="9">
+          <CardTitle :icon="$route.meta.icon" :text="$route.meta.title" />
         </v-col>
-        <v-col cols="3" class="text-right">
+        <v-col cols="12" md="3">
           <v-text-field
+            label="Buscar"
             v-model="items_srch"
-            density="compact"
-            label="Buscar..."
             type="text"
-            single-line
-            hide-details
-          >
-            <template v-slot:append-inner>
-              <v-icon size="small" icon="mdi-magnify"/>
-            </template>
-          </v-text-field>
+            density="compact"
+            append-inner-icon="mdi-magnify"
+          />
         </v-col>
       </v-row>
     </v-card-title>
     <v-card-text>
-      <v-data-table-server
-        v-model:items-per-page="itemsPerPage"
-        density="compact"
-        :items="items"
-        :search="items_srch"
+      <v-data-table
         :headers="items_hdrs"
+        :items="items"
+        :items-per-page="25"
+        density="compact"
+        :search="items_srch"
         :loading="ldg"
-        :items-length="totalItems"
-        @update:options="loadItems"
       >
         <template v-slot:item.key="{ item }">
           <b>{{ items.indexOf(item) + 1 }}</b>
         </template>
         <template v-slot:item.action="{ item }">
           <div class="text-right">
-            <v-tooltip location="left">
-              <template v-slot:activator="{ props: activatorProps }">
-                <v-btn
-                  v-bind="activatorProps"
-                  color="warning"
-                  size="x-small"
-                  icon="mdi-account-cash"
-                  variant="text"
-                  :to="{
-                    name: routeName + '/update',
-                    params: { id: encodeId(item.id) },
-                  }"
-                />
-              </template>
-              <span>Cobrar</span>
-            </v-tooltip>
+            <v-btn
+              size="x-small"
+              variant="text"
+              icon="mdi-account-cash"
+              color="warning"
+              :to="{
+                name: routeName + '/update',
+                params: { id: encodeId(item.id) },
+              }"
+            >
+              <v-icon />
+              <v-tooltip activator="parent" location="start">
+                Cobrar
+              </v-tooltip>
+            </v-btn>
           </div>
         </template>
-      </v-data-table-server>
+      </v-data-table>
     </v-card-text>
   </v-card>
 </template>
@@ -69,75 +61,65 @@ import { URL_API, getHdrs, getRsp, getErr } from "@/general";
 import CardTitle from "@/components/CardTitle.vue";
 import { useSocket } from "@/plugins/socket.js";
 
-//Imports
 const authStore = useAuthStore();
 const route = useRoute();
 const encodeId = (id) => window.btoa(id);
 const alert = inject("alert");
 const { connect, disconnect, on, off } = useSocket();
 
-//Refs
 const routeName = "module/consultations";
 const ldg = ref(false);
 const items = ref([]);
 const items_srch = ref("");
-const itemsPerPage = ref(15);
-const totalItems = ref(0);
-
-const items_hdrs = ref([
+const items_hdrs = [
   {
-    text: "#",
+    title: "#",
     value: "key",
     filterable: false,
     sortable: false,
     width: "60",
   },
   {
-    text: "Folio",
+    title: "Folio",
     value: "uiid",
   },
   {
-    text: "F. registro",
+    title: "F. registro",
     value: "created_at",
   },
   {
+    title: "Médico",
     value: "doctor.user.full_name",
-    text: "Médico",
   },
   {
+    title: "Paciente",
     value: "patient.user.full_name",
-    text: "Paciente",
   },
   {
+    title: "",
     value: "action",
-    text: "",
     filterable: false,
     sortable: false,
     width: "60",
   },
-]);
+];
 
-//Métodos
 const getItems = async () => {
   ldg.value = true;
 
   try {
-    const response = await axios.get(
-      `${URL_API}/${routeName}`,
-      getHdrs(authStore.getAuth.token)
+    const rsp = getRsp(
+      await axios.get(
+        URL_API + "/" + routeName,
+        getHdrs(authStore.getAuth.token)
+      )
     );
-    const rsp = getRsp(response);
     items.value = rsp.data.items;
-    totalItems.value = rsp.data.items.length;
   } catch (err) {
     alert?.show("error", getErr(err));
   } finally {
     ldg.value = false;
   }
-};
-
-const loadItems = ({ page, itemsPerPage, sortBy }) => {
-  getItems();
 };
 
 const handleReload = () => {

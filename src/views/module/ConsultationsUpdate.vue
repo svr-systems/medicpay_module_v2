@@ -1,12 +1,11 @@
 <template>
   <v-card elevation="24" :disabled="ldg" :loading="ldg">
     <v-card-title>
-      <v-row density="compact">
-        <v-col cols="11">
+      <v-row dense>
+        <v-col cols="12">
           <BtnBack :route="{ name: routeName }" />
           <CardTitle :text="route.meta.title" :icon="route.meta.icon" />
         </v-col>
-        <v-col cols="1" class="text-right" />
       </v-row>
     </v-card-title>
     <v-card-text v-if="item">
@@ -15,7 +14,7 @@
           <v-col cols="12">
             <v-card>
               <v-card-title class="card_title_border">
-                <v-row density="compact">
+                <v-row dense>
                   <v-col cols="8">
                     <CardTitle text="CONSULTA" sub />
                   </v-col>
@@ -23,7 +22,7 @@
                 </v-row>
               </v-card-title>
               <v-card-text>
-                <v-row density="compact">
+                <v-row dense>
                   <v-col cols="12" md="4">
                     <VisVal
                       lab="Folio"
@@ -56,7 +55,7 @@
           <v-col cols="12">
             <v-card>
               <v-card-title class="card_title_border">
-                <v-row density="compact">
+                <v-row dense>
                   <v-col cols="8">
                     <CardTitle text="COBRO" sub />
                   </v-col>
@@ -64,7 +63,7 @@
                 </v-row>
               </v-card-title>
               <v-card-text>
-                <v-row density="compact">
+                <v-row dense>
                   <v-col cols="12" class="text-center">
                     <div class="text-caption font-weight-bold">MONTO</div>
                     <div class="text-h2 pb-4">
@@ -162,7 +161,7 @@
                     />
                   </v-col>
                   <v-col cols="12" v-if="item.bill_patient">
-                    <v-row density="compact">
+                    <v-row dense>
                       <v-col cols="12" md="3">
                         <v-text-field
                           v-model="item.fiscal_code"
