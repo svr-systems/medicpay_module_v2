@@ -237,6 +237,7 @@
                     <v-divider />
                   </v-col>
                   <v-col cols="12">
+                    <!-- IMPLEMENTAR CAMARA -->
                     <v-file-input
                       label="Comprobante"
                       v-model="item.charge_proof_doc"
