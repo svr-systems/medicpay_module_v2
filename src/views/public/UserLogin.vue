@@ -1,14 +1,17 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" md="4" class="mt-11">
-      <v-card elevation="24" :loading="ldg" :disabled="ldg">
+      <v-card elevation="24" class="py-4 px-4" :loading="ldg" :disabled="ldg">
         <v-card-text class="text-center">
           <v-row>
             <v-col cols="12" class="text-right">
               <BtnTheme />
             </v-col>
             <v-col cols="12">
-              <img height="80" :src="logo" />
+              <img
+                height="80"
+                :src="authStore.conf.theme_dark ? logo_w : logo_b"
+              />
             </v-col>
             <v-col cols="12">
               <h2 class="font-weight-light">Iniciar Sesión</h2>
@@ -48,11 +51,11 @@
                       <v-icon end size="small">mdi-login</v-icon>
                     </v-btn>
                   </v-col>
-                  <v-col cols="12" class="pt-11 pb-5">
+                  <v-col cols="12" class="pt-11">
                     <small
                       class="text-caption font-weight-thin text-medium-emphasis"
                     >
-                      Desarrollado por SOLMETEC © 2025
+                      Desarrollado por SOLMETEC © {{ new Date().getFullYear() }}
                     </small>
                   </v-col>
                 </v-row>
@@ -72,12 +75,13 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import { URL_API, getHdrs, getRsp, getErr, getRules } from "@/general";
 import BtnTheme from "@/components/BtnTheme.vue";
-import logo from "@/assets/logo.png";
+import logo_b from "@/assets/logo_b.png";
+import logo_w from "@/assets/logo_w.png";
 import InpPassword from "@/components/InpPassword.vue";
 
+const alert = inject("alert");
 const authStore = useAuthStore();
 const router = useRouter();
-const alert = inject("alert");
 
 const rules = getRules();
 

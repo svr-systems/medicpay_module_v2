@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="24" :disabled="ldg" :loading="ldg">
+  <v-card elevation="24" class="py-4 px-4" :disabled="ldg" :loading="ldg">
     <v-card-title>
       <v-row dense>
         <v-col cols="12">
@@ -8,99 +8,88 @@
         </v-col>
       </v-row>
     </v-card-title>
-    <v-card-text v-if="item">
-      <v-form @submit.prevent="update" ref="itemForm">
-        <v-row>
-          <v-col cols="12">
-            <v-card>
-              <v-card-title class="card_title_border">
-                <v-row dense>
-                  <v-col cols="8">
-                    <CardTitle text="CONSULTA" sub />
-                  </v-col>
-                  <v-col cols="4" class="text-right" />
-                </v-row>
-              </v-card-title>
-              <v-card-text>
-                <v-row dense>
-                  <v-col cols="12" md="4">
-                    <VisVal
-                      lab="Folio"
-                      :val="item.uiid"
-                      :sub="item.created_at"
-                    />
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <VisVal
-                      lab="Médico"
-                      :val="item.doctor.full_name"
-                      :sub="item.doctor.uiid"
-                    />
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <VisVal
-                      lab="Paciente"
-                      :val="item.patient.full_name"
-                      :sub="
-                        item.patient.uiid +
-                        ' | Tel. ' +
-                        item.patient.movil_phone
-                      "
-                    />
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12">
-            <v-card>
-              <v-card-title class="card_title_border">
-                <v-row dense>
-                  <v-col cols="8">
-                    <CardTitle text="COBRO" sub />
-                  </v-col>
-                  <v-col cols="4" class="text-right" />
-                </v-row>
-              </v-card-title>
-              <v-card-text>
+    <v-card-text v-if="item && !item.charged_at">
+      <v-row>
+        <v-col cols="12">
+          <v-card>
+            <v-card-title>
+              <CardTitle text="DETALLE" sub />
+            </v-card-title>
+            <v-divider />
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12" md="4">
+                  <VisVal lab="Folio" :val="item.uiid" :sub="item.created_at" />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <VisVal
+                    lab="Médico"
+                    :val="item.doctor.full_name"
+                    :sub="item.doctor.uiid"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <VisVal
+                    lab="Paciente"
+                    :val="item.patient.full_name"
+                    :sub="
+                      item.patient.uiid + ' | Tel. ' + item.patient.movil_phone
+                    "
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12">
+          <v-card>
+            <v-card-title>
+              <CardTitle text="COBRO" sub />
+            </v-card-title>
+            <v-divider />
+            <v-card-text>
+              <v-form ref="itemForm">
                 <v-row dense>
                   <v-col cols="12" class="text-center">
-                    <div class="text-caption font-weight-bold">MONTO</div>
-                    <div class="text-h2 pb-4">
+                    <div class="font-weight-light">
+                      <b>MONTO</b>
+                    </div>
+                    <div class="text-h2 pt-1 pb-4">
                       {{ getAmountFormat(item.charge_amount) }}
                     </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-text-field
-                      v-model="item.patient.email"
-                      density="compact"
                       label="E-mail del paciente"
+                      v-model="item.patient.email"
                       variant="outlined"
-                      maxlength="65"
                       type="text"
+                      density="compact"
+                      maxlength="65"
                       counter
-                      :rules="rules.email"
+                      :rules="rules.email_rqd"
                     />
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-select
-                      v-model="item.fiscal_payment_id"
-                      density="compact"
                       label="Forma de pago"
+                      v-model="item.fiscal_payment_id"
                       variant="outlined"
-                      item-value="id"
-                      :rules="rules.required"
+                      density="compact"
                       :items="fiscal_payments"
-                      :item-title="(v) => v.name + ' | ' + v.code"
                       :loading="fiscal_payments_ldg"
+                      :disabled="fiscal_payments_ldg"
+                      item-value="id"
+                      :item-title="(v) => v.name + ' | ' + v.code"
+                      :rules="rules.rqd"
                     />
                   </v-col>
                   <v-col cols="12" md="4" v-if="item.fiscal_payment_id == 3">
                     <v-text-field
-                      v-model="item.charge_reference"
-                      density="compact"
                       label="Referencia"
+                      v-model="item.charge_reference"
                       variant="outlined"
+                      density="compact"
                       type="text"
                       maxlength="20"
                       counter
@@ -116,10 +105,10 @@
                     "
                   >
                     <v-text-field
-                      v-model="item.charge_aprobattion"
-                      density="compact"
                       label="Núm. aprobación"
+                      v-model="item.charge_aprobattion"
                       variant="outlined"
+                      density="compact"
                       type="text"
                       maxlength="10"
                       counter
@@ -135,10 +124,10 @@
                     "
                   >
                     <v-text-field
-                      v-model="item.charge_card"
-                      density="compact"
                       label="Tarjeta (4 últ. dig.)"
+                      v-model="item.charge_card"
                       variant="outlined"
+                      density="compact"
                       type="text"
                       maxlength="4"
                       counter
@@ -150,24 +139,24 @@
                   </v-col>
                   <v-col cols="12">
                     <v-select
-                      v-model="item.bill_patient"
-                      density="compact"
                       label="¿Requiere factura fiscal?"
+                      v-model="item.bill_patient"
                       variant="outlined"
-                      item-value="id"
-                      :rules="[(v) => v != null || 'Campo requerido']"
+                      density="compact"
                       :items="bill_patient_opts"
+                      item-value="id"
                       :item-title="(v) => v.name"
+                      :rules="[(v) => v != null || 'Campo requerido']"
                     />
                   </v-col>
                   <v-col cols="12" v-if="item.bill_patient">
                     <v-row dense>
                       <v-col cols="12" md="3">
                         <v-text-field
-                          v-model="item.fiscal_code"
-                          density="compact"
                           label="RFC"
+                          v-model="item.fiscal_code"
                           variant="outlined"
+                          density="compact"
                           type="text"
                           maxlength="13"
                           counter
@@ -176,10 +165,10 @@
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-text-field
-                          v-model="item.fiscal_name"
-                          density="compact"
                           label="Nombre | Razón social"
+                          v-model="item.fiscal_name"
                           variant="outlined"
+                          density="compact"
                           type="text"
                           maxlength="75"
                           counter
@@ -188,10 +177,10 @@
                       </v-col>
                       <v-col cols="12" md="3">
                         <v-text-field
-                          v-model="item.fiscal_zip"
-                          density="compact"
                           label="CP"
+                          v-model="item.fiscal_zip"
                           variant="outlined"
+                          density="compact"
                           type="text"
                           maxlength="5"
                           counter
@@ -200,43 +189,46 @@
                       </v-col>
                       <v-col cols="12" md="3">
                         <v-select
-                          v-model="item.fiscal_type_id"
-                          density="compact"
                           label="Tipo Fiscal"
+                          v-model="item.fiscal_type_id"
                           variant="outlined"
-                          item-value="id"
-                          :rules="rules.rqd"
+                          density="compact"
                           :items="fiscal_types"
-                          :item-title="(v) => v.name"
                           :loading="fiscal_types_ldg"
+                          :disabled="fiscal_types_ldg"
+                          item-value="id"
+                          :item-title="(v) => v.name"
+                          :rules="rules.rqd"
                           @update:modelValue="getFiscalRegimes()"
                         />
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-autocomplete
-                          v-model="item.fiscal_regime_id"
-                          density="compact"
                           label="Régimen Fiscal"
+                          v-model="item.fiscal_regime_id"
                           variant="outlined"
-                          item-value="id"
-                          :rules="rules.rqd"
+                          density="compact"
                           :items="fiscal_regimes"
-                          :item-title="(v) => v.name + ' | ' + v.code"
                           :loading="fiscal_regimes_ldg"
+                          :disabled="fiscal_regimes_ldg"
+                          item-value="id"
+                          :item-title="(v) => v.name + ' | ' + v.code"
+                          :rules="rules.rqd"
                           @update:modelValue="getFiscalUses()"
                         />
                       </v-col>
                       <v-col cols="12" md="3">
                         <v-autocomplete
-                          v-model="item.fiscal_use_id"
-                          density="compact"
                           label="Uso CFDI"
+                          v-model="item.fiscal_use_id"
                           variant="outlined"
-                          item-value="id"
-                          :rules="rules.rqd"
+                          density="compact"
                           :items="fiscal_uses"
-                          :item-title="(v) => v.name + ' | ' + v.code"
                           :loading="fiscal_uses_ldg"
+                          :disabled="fiscal_uses_ldg"
+                          item-value="id"
+                          :item-title="(v) => v.name + ' | ' + v.code"
+                          :rules="rules.rqd"
                         />
                       </v-col>
                     </v-row>
@@ -246,36 +238,34 @@
                   </v-col>
                   <v-col cols="12">
                     <v-file-input
-                      v-model="item.charge_proof_doc"
-                      density="compact"
                       label="Comprobante"
+                      v-model="item.charge_proof_doc"
                       variant="outlined"
+                      density="compact"
+                      accept=".jpg"
                       show-size
                       prepend-icon=""
-                      accept=".jpg"
-                      :rules="rules.docLmt"
+                      :rules="rules.doc_rqd"
                     />
                   </v-col>
                 </v-row>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12">
-            <div class="text-right">
-              <v-btn
-                color="success"
-                size="small"
-                block
-                :loading="ldg"
-                @click.prevent="update"
-              >
-                Aceptar
-                <v-icon icon="mdi-account-cash" size="small" end />
-              </v-btn>
-            </div>
-          </v-col>
-        </v-row>
-      </v-form>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12">
+          <v-btn
+            block
+            size="small"
+            color="success"
+            :loading="ldg"
+            @click.prevent="handleAction"
+          >
+            Continuar
+            <v-icon icon="mdi-account-cash" size="small" end />
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -299,72 +289,72 @@ import BtnBack from "@/components/BtnBack.vue";
 import CardTitle from "@/components/CardTitle.vue";
 import VisVal from "@/components/VisVal.vue";
 
-//Imports
+const alert = inject("alert");
+const confirm = inject("confirm");
 const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
-const alert = inject("alert");
-const confirm = inject("confirm");
 
-// Refs
-const itemForm = ref(null);
-const ldg = ref(true);
-const item = ref(null);
 const routeName = "module/consultations";
 const id = ref(window.atob(route.params.id));
+const ldg = ref(true);
+const item = ref(null);
+const itemForm = ref(null);
+const rules = getRules();
 const fiscal_payments = ref([]);
-const fiscal_payments_ldg = ref(false);
+const fiscal_payments_ldg = ref(true);
 const bill_patient_opts = ref([
   { id: 0, name: "NO" },
   { id: 1, name: "SI" },
   { id: null, name: "-" },
 ]);
 const fiscal_types = ref([]);
-const fiscal_types_ldg = ref(false);
+const fiscal_types_ldg = ref(true);
 const fiscal_regimes = ref([]);
 const fiscal_regimes_ldg = ref(false);
 const fiscal_uses = ref([]);
 const fiscal_uses_ldg = ref(false);
 
-const rules = getRules();
-
-//Métodos
 const getCatalogs = async () => {
-  try {
-    const [paymentsResponse, typesResponse] = await Promise.all([
-      axios.get(
-        `${URL_API}/module/fiscal_payments`,
-        getHdrs(authStore.getAuth.token)
-      ),
-      axios.get(
-        `${URL_API}/module/fiscal_types`,
-        getHdrs(authStore.getAuth.token)
-      ),
-    ]);
+  axios
+    .get(URL_API + "/module/fiscal_payments", getHdrs(authStore.getAuth.token))
+    .then((rsp) => {
+      fiscal_payments.value = getRsp(rsp).data.items;
+    })
+    .catch((err) => {
+      alert?.show("error", getErr(err));
+    })
+    .finally(() => {
+      fiscal_payments_ldg.value = false;
+    });
 
-    fiscal_payments.value = getRsp(paymentsResponse).data.items;
-    fiscal_types.value = getRsp(typesResponse).data.items;
-  } catch (err) {
-    alert?.show("error", getErr(err));
-  } finally {
-    fiscal_payments_ldg.value = false;
-    fiscal_types_ldg.value = false;
-  }
+  axios
+    .get(URL_API + "/module/fiscal_types", getHdrs(authStore.getAuth.token))
+    .then((rsp) => {
+      fiscal_types.value = getRsp(rsp).data.items;
+    })
+    .catch((err) => {
+      alert?.show("error", getErr(err));
+    })
+    .finally(() => {
+      fiscal_types_ldg.value = false;
+    });
 };
 
 const getItem = async () => {
   try {
-    const response = await axios.get(
-      `${URL_API}/${routeName}/${id.value}`,
-      getHdrs(authStore.getAuth.token)
+    const rsp = getRsp(
+      await axios.get(
+        URL_API + "/" + routeName + "/" + id.value,
+        getHdrs(authStore.getAuth.token)
+      )
     );
 
-    const rsp = getRsp(response);
     item.value = rsp.data.item;
 
-    if (!item.value.charged_at && !item.value.patient.fiscal_name) {
-      item.value.fiscal_name = item.value.patient.full_name;
-    }
+    if (item.value.charged_at) router.push({ name: routeName });
+
+    item.value.fiscal_name = item.value.patient.full_name;
 
     await getFiscalRegimes(true);
     await getFiscalUses(true);
@@ -384,11 +374,14 @@ const getFiscalRegimes = async (isMounted = false) => {
   fiscal_regimes_ldg.value = true;
 
   try {
-    const response = await axios.get(
-      `${URL_API}/module/fiscal_regimes?fiscal_type_id=${item.value.fiscal_type_id}`,
-      getHdrs(authStore.getAuth.token)
-    );
-    fiscal_regimes.value = getRsp(response).data.items;
+    fiscal_regimes.value = getRsp(
+      await axios.get(
+        URL_API +
+          "/module/fiscal_regimes?fiscal_type_id=" +
+          item.value.fiscal_type_id,
+        getHdrs(authStore.getAuth.token)
+      )
+    ).data.items;
   } catch (err) {
     alert?.show("error", getErr(err));
   } finally {
@@ -404,11 +397,14 @@ const getFiscalUses = async (isMounted = false) => {
   fiscal_uses_ldg.value = true;
 
   try {
-    const response = await axios.get(
-      `${URL_API}/module/fiscal_uses?fiscal_regime_id=${item.value.fiscal_regime_id}`,
-      getHdrs(authStore.getAuth.token)
-    );
-    fiscal_uses.value = getRsp(response).data.items;
+    fiscal_uses.value = getRsp(
+      await axios.get(
+        URL_API +
+          "/module/fiscal_uses?fiscal_regime_id=" +
+          item.value.fiscal_regime_id,
+        getHdrs(authStore.getAuth.token)
+      )
+    ).data.items;
   } catch (err) {
     alert?.show("error", getErr(err));
   } finally {
@@ -416,7 +412,7 @@ const getFiscalUses = async (isMounted = false) => {
   }
 };
 
-const update = async () => {
+const handleAction = async () => {
   const { valid } = await itemForm.value.validate();
 
   if (!valid) {
@@ -424,20 +420,22 @@ const update = async () => {
     return;
   }
 
-  const confirm = await confirm?.show("¿Confirma el cobro de la consulta?");
-  if (!confirm) return;
+  const confirmed = await confirm?.show("¿Confirma el cobro de la consulta?");
+  if (!confirmed) return;
 
   ldg.value = true;
 
   try {
     const obj = getObj(item.value, true);
-    const response = await axios.post(
-      `${URL_API}/${routeName}`,
-      getFormData(obj),
-      getHdrs(authStore.getAuth.token, true)
+
+    const rsp = getRsp(
+      await axios.post(
+        URL_API + "/" + routeName,
+        getFormData(obj),
+        getHdrs(authStore.getAuth.token, true)
+      )
     );
 
-    const rsp = getRsp(response);
     alert?.show("success", rsp.msg);
     router.push({ name: routeName });
   } catch (err) {

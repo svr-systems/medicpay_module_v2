@@ -4,12 +4,14 @@
     <Confirm ref="confirm" />
     <v-app-bar v-if="auth" density="compact" :elevation="2">
       <v-app-bar-title>
-        <img :src="logo" height="32" class="mt-3" />
+        <img
+          :src="authStore.conf.theme_dark ? logo_w : logo_b"
+          height="32"
+          class="mt-3"
+        />
       </v-app-bar-title>
-      <template v-slot:append>
-        <BtnTheme />
-        <BtnLogout />
-      </template>
+      <BtnTheme />
+      <BtnLogout />
     </v-app-bar>
     <v-main>
       <v-container>
@@ -23,7 +25,8 @@
 import { ref, onMounted, getCurrentInstance, provide, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/index.js";
-import logo from "@/assets/logo.png";
+import logo_b from "@/assets/logo_b.png";
+import logo_w from "@/assets/logo_w.png";
 import BtnTheme from "@/components/BtnTheme.vue";
 import BtnLogout from "@/components/BtnLogout.vue";
 import Alert from "@/components/Alert.vue";

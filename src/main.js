@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createVuetify } from "vuetify";
+import { es } from "vuetify/locale";
 import "vuetify/styles";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
@@ -16,6 +17,11 @@ const vuetify = createVuetify({
   directives,
   theme: {
     defaultTheme: "light",
+  },
+  locale: {
+    locale: "es",
+    fallback: "es",
+    messages: { es },
   },
 });
 const socket = io("https://solmetec.mx:3000", {

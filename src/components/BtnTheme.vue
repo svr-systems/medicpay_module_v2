@@ -1,5 +1,5 @@
 <template>
-  <v-btn size="x-small" variant="flat" icon="mdi-brightness-6" @click="handleAction">
+  <v-btn size="x-small" icon="mdi-brightness-6" @click="handleAction">
     <v-icon />
     <v-tooltip activator="parent" location="start">
       Utilizar modo: {{ isDark ? "Obscuro" : "Claro" }}

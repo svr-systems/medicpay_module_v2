@@ -1,7 +1,6 @@
 <template>
   <v-btn
     size="x-small"
-    variant="flat"
     icon="mdi-logout-variant"
     @click="handleAction"
   >

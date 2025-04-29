@@ -1,4 +1,4 @@
-export const APP_VERSION = "1.25.0427";
+export const APP_VERSION = "1.25.0428";
 export const APP_NAME = "MEDICPAY";
 
 const URL = "https://solmetec.mx/app";
@@ -59,8 +59,9 @@ export const getDateTime = (sprDate = "-", sprBwn = " ", sprTime = ":") => {
 export const getRules = () => {
   return {
     rqd: [(v) => !!v || "Campo requerido"],
+    rqd_nn: [(v) => v != null || "Campo requerido"],
     txt_rqd: [
-      (v) => !!v || "Campo requerido.",
+      (v) => !!v || "Campo requerido",
       (v) => (v && v.trim().length >= 2) || "Mínimo 2 caracteres",
     ],
     txt: [
@@ -70,7 +71,7 @@ export const getRules = () => {
       },
     ],
     email_rqd: [
-      (v) => !!v || "Campo requerido.",
+      (v) => !!v || "Campo requerido",
       (v) => (v && v.length <= 65) || "Máximo 65 caracteres",
       (v) => /.+@.+\..+/.test(v) || "Formato invalido",
     ],
@@ -85,17 +86,17 @@ export const getRules = () => {
       },
     ],
     password_rqd: [
-      (v) => !!v || "Campo requerido.",
+      (v) => !!v || "Campo requerido",
       (v) => (v && v.length >= 8) || "Mínimo 8 caracteres",
-      (v) => (v && v.length <= 15) || "Máximo 15 caracteres",
+      (v) => (v && v.length <= 30) || "Máximo 30 caracteres",
       (v) => /(?=.*[A-Z])/.test(v) || "Al menos una mayúscula",
       (v) => /(?=.*[a-z])/.test(v) || "Al menos una minúscula",
-      (v) => /(?=.*\d)/.test(v) || "Al menos un número",
+      (v) => /(?=.*[0-9])/.test(v) || "Al menos un número",
       (v) =>
-        /([!@$%*])/.test(v) || "Al menos un caractere especial (! @ $ % *)",
+        /(?=.*[!@$%*])/.test(v) || "Al menos un caractere especial (! @ $ % *)",
     ],
     doc_rqd: [
-      (v) => !!v || "Campo requerido.",
+      (v) => !!v || "Campo requerido",
       (v) => (v && v.size <= 1048576) || "El tamaño máximo de carga es de 1MB",
     ],
     doc: [
@@ -108,7 +109,7 @@ export const getRules = () => {
       },
     ],
     img_rqd: [
-      (v) => !!v || "Campo requerido.",
+      (v) => !!v || "Campo requerido",
       (v) => (v && v.size <= 2097152) || "El tamaño máximo de carga es de 2MB",
     ],
     img: [
@@ -121,7 +122,7 @@ export const getRules = () => {
       },
     ],
     fiscal_code_rqd: [
-      (v) => !!v || "Campo requerido.",
+      (v) => !!v || "Campo requerido",
       (v) => (v && v.length <= 13) || "Máximo 13 caracteres",
       (v) => /^[A-Za-zñÑ&]{3,4}\d{6}\w{3}$/.test(v) || "Formato invalido",
     ],
@@ -137,7 +138,7 @@ export const getRules = () => {
       },
     ],
     zip_rqd: [
-      (v) => !!v || "Campo requerido.",
+      (v) => !!v || "Campo requerido",
       (v) => /^\d{5}$/.test(v) || "Ingresar 5 dígitos",
     ],
     zip: [
@@ -147,7 +148,7 @@ export const getRules = () => {
       },
     ],
     phone_rqd: [
-      (v) => !!v || "Campo requerido.",
+      (v) => !!v || "Campo requerido",
       (v) => /^\d{10}$/.test(v) || "Ingresar 10 dígitos",
     ],
     phone: [

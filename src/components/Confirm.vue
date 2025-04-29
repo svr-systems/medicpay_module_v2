@@ -1,41 +1,36 @@
 <template>
-  <v-dialog v-model="visible" persistent scrim="black" max-width="400">
-    <v-card elevation="24" rounded="lg">
+  <v-dialog v-model="visible" persistent scrim="black" max-width="380">
+    <v-card elevation="24" class="py-4">
       <v-card-text>
         <v-row dense class="text-center">
           <v-col cols="12">
             <v-icon
               color="warning"
-              size="64"
+              size="48"
               icon="mdi-alert-octagon-outline"
             />
           </v-col>
-
           <v-col cols="12">
-            <div class="text-h6 pt-2">
+            <h3 class="font-weight-light">
               {{ msg }}
-            </div>
+            </h3>
           </v-col>
-
-          <v-col cols="12" class="d-flex justify-center align-center py-4">
+          <v-col cols="12" class="pt-3">
             <v-btn
-              color="error"
               size="small"
+              variant="flat"
               icon="mdi-close"
-              class="mx-2"
-              variant="flat"
-              rounded="pill"
-              @click="cancel"
+              color="error"
+              class="mr-2"
+              @click="handleAction(false)"
             />
-
             <v-btn
-              color="success"
               size="small"
-              icon="mdi-check"
-              class="mx-2"
               variant="flat"
-              rounded="pill"
-              @click="accept"
+              icon="mdi-check"
+              color="success"
+              class="ml-2"
+              @click="handleAction(true)"
             />
           </v-col>
         </v-row>
@@ -47,31 +42,23 @@
 <script setup>
 import { ref } from "vue";
 
-//Refs
-const msg = ref("");
 const visible = ref(false);
+const msg = ref("");
 const resolve = ref(null);
 
-//Métodos
 const show = (message) => {
   msg.value = message;
   visible.value = true;
 
-  return new Promise((res) => {
-    resolve.value = res;
+  return new Promise((rsp) => {
+    resolve.value = rsp;
   });
 };
 
-const accept = () => {
-  resolve.value?.(true);
+const handleAction = (response) => {
+  resolve.value?.(response);
   visible.value = false;
 };
 
-const cancel = () => {
-  resolve.value?.(false);
-  visible.value = false;
-};
-
-//Exponer la función show de forma global para usarse en otros componentes
 defineExpose({ show });
 </script>

@@ -1,11 +1,9 @@
 <template>
   <v-snackbar
     v-model="visible"
-    location="top"
-    elevation="12"
     :color="color"
     :timeout="5500"
-    transition="slide-y-transition"
+    location="top"
   >
     <div class="text-center">
       {{ msg }}
@@ -16,18 +14,15 @@
 <script setup>
 import { ref, provide } from "vue";
 
-//Refs
+const visible = ref(false);
 const color = ref(null);
 const msg = ref(null);
-const visible = ref(false);
 
-//Métodos
-const show = (Newcolor, NewMsg) => {
-  color.value = Newcolor;
+const show = (NewColor, NewMsg) => {
+  color.value = NewColor;
   msg.value = NewMsg;
   visible.value = true;
 };
 
-//Exponer la función show de forma global para usarse en otros componentes
 defineExpose({ show });
 </script>

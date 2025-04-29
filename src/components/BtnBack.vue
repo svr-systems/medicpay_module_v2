@@ -1,20 +1,9 @@
 <template>
-  <v-tooltip location="bottom">
-    <template v-slot:activator="{ props: activatorProps }">
-      <v-btn v-bind="activatorProps" icon size="x-small" class="mr-1" :to="route">
-        <v-icon size="x-large">mdi-chevron-left</v-icon>
-      </v-btn>
-    </template>
-    <span>Volver atrás</span>
-  </v-tooltip>
+  <v-btn size="x-small" icon="mdi-chevron-left" :to="route" />
 </template>
 
 <script setup>
-//Props
 defineProps({
-  route: {
-    type: [String, Object],
-    required: true,
-  },
+  route: Object,
 });
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <v-card elevation="24" :disabled="ldg">
+  <v-card elevation="24" class="py-4 px-4" :disabled="ldg">
     <v-card-title>
-      <v-row density="compact">
+      <v-row dense>
         <v-col cols="12" md="9">
-          <CardTitle :icon="$route.meta.icon" :text="$route.meta.title" />
+          <CardTitle :text="$route.meta.title" :icon="$route.meta.icon" counter />
         </v-col>
         <v-col cols="12" md="3">
           <v-text-field
@@ -25,8 +25,8 @@
         :search="items_srch"
         :loading="ldg"
       >
-        <template v-slot:item.key="{ item }">
-          <b>{{ items.indexOf(item) + 1 }}</b>
+        <template v-slot:item.uiid="{ item }">
+          <b>{{ item.uiid }}</b>
         </template>
         <template v-slot:item.action="{ item }">
           <div class="text-right">
@@ -73,31 +73,24 @@ const items = ref([]);
 const items_srch = ref("");
 const items_hdrs = [
   {
-    title: "#",
-    value: "key",
-    filterable: false,
-    sortable: false,
-    width: "60",
-  },
-  {
     title: "Folio",
-    value: "uiid",
+    key: "uiid",
   },
   {
     title: "F. registro",
-    value: "created_at",
+    key: "created_at",
   },
   {
     title: "Médico",
-    value: "doctor.user.full_name",
+    key: "doctor.user.full_name",
   },
   {
     title: "Paciente",
-    value: "patient.user.full_name",
+    key: "patient.user.full_name",
   },
   {
     title: "",
-    value: "action",
+    key: "action",
     filterable: false,
     sortable: false,
     width: "60",

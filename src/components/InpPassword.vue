@@ -3,22 +3,14 @@
     :label="label"
     v-model="val"
     variant="outlined"
-    :type="showVal ? 'text' : 'password'"
+    :type="visible ? 'text' : 'password'"
     maxlength="50"
     :rules="rules"
     :counter="counter"
     :disabled="disabled"
-  >
-    <template v-slot:append-inner>
-      <v-btn
-        size="x-small"
-        variant="plain"
-        :icon="showVal ? 'mdi-eye' : 'mdi-eye-off'"
-        :disabled="disabled"
-        @click.prevent="showVal = !showVal"
-      />
-    </template>
-  </v-text-field>
+    :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+    @click:append-inner="visible = !visible"
+  />
 </template>
 
 <script setup>
@@ -32,9 +24,7 @@ const props = defineProps({
   disabled: Boolean,
 });
 
-const showVal = ref(false);
-const counter = ref(props.counter !== "undefined" ? props.counter : false);
-const disabled = ref(props.disabled !== "undefined" ? props.disabled : false);
+const visible = ref(false);
 
 const emit = defineEmits(["update:model"]);
 
